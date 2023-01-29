@@ -1,11 +1,52 @@
+%! suppress = MissingImport
 In order to implement reliable and consistent DevOps within a company using Azure, Azure pipelines and Azure DevOps,
-it is worth to follow set of predefined best practices as follows
+it is worth to follow set of predefined best practices as follows.
+We begin from CI/CD pipelines improvements
 \begin{itemize}
-    \item \textbf{Security first.}
+    \item \textbf{Security first.} Each software product state should meet security precautions like avoiding to
+    store secrets hardcoded, avoiding to use vulnerable packages and dependencies etc.
+    Few tools help us to follow this rule, for example
+    \href{https://www.sonarsource.com/products/sonarcloud/}{\texttt{SonarCloud}} static code analyzer,
+    \href{https://www.mend.io/free-developer-tools/bolt/}{\texttt{Mend bolt}} security scan,
+    \href{https://snyk.io/}{\texttt{Snyk}} dependencies scan.
+    So above tools must be utilized during CI/CD process, where is possible.
     \item \textbf{Store pipeline secrets securely.}
-    \item \textbf{Cache build assets.}
-    \item \textbf{Don't repeat yourself.}
-    \item \textbf{Parallel everything, if possible.}
-    \item \textbf{Optional CI/CD jobs run.}
+    It is a best practice to store secrets, files and certificates accessed by CI/CD pipeline inside
+    \href{https://azure.microsoft.com/en-us/products/key-vault/}{\texttt{Azure KeyVault}} or
+    \href{https://www.vaultproject.io/}{\texttt{Hashicorp Vault}}.
+    It is true that for developers it is much simpler to store secrets inside Azure DevOps library, however security first.
+    Secrets must be stored inside vaults, if possible.
+    \item \textbf{Use YAML pipelines instead Designer.}
+    Switch from graphical UI pipelines to YAML where is possible.
+    Few benefits of YAML: bulk edit, templates reuse over multiple projects, pipeline as code stored in version control
+    so that build definition is straightforward.
+    \item \textbf{Don't repeat yourself.} This recommendation is closely related to previous one, and proposes to use
+    generic
+    \href{https://learn.microsoft.com/en-us/azure/devops/pipelines/process/templates?view=azure-devops}
+    {\texttt{YAML build templates}}
+    where is possible, it moves us from repeating same YAML build definition over and over
+    again for every new project.
+    Instead, we can simply reuse generic build definition passing different parameters, for example project name, build
+    configuration or build platform.
+    \item \textbf{Cache build assets.} Performance is a key factor for reliable DevOps process.
+    Sometimes it takes around half an hour to finish deployment process.
+    It is not convenient.
+    \href{https://learn.microsoft.com/en-us/azure/devops/pipelines/release/caching?view=azure-devops}
+    {\texttt{Caching build assets}}
+    like NPM or NUGET packages helps to decrease pipeline execution time, so that release or development
+    processes will be faster.
+    \item \textbf{Parallel everything, if possible.} Yet again, performance is a key factor for reliable DevOps process
+    and sometimes CI/CD process takes long time.
+    What we cen do instead is to update build definition so that it uses
+    \href{https://learn.microsoft.com/en-us/azure/devops/pipelines/licensing/concurrent-jobs?view=azure-devops&tabs=ms-hosted}
+    {\texttt{Parallel Jobs}}.
+    For instance, we are always able to run build, integration tests and code quality checks in parallel.
+    It might decrease CI/CD pipeline execution time in more than twice.
+    \item \textbf{Optional CI/CD jobs run.} Sometimes we need to test or debug a single pipeline job or stage, so it is
+    necessary to provide a set of
+    \href{https://learn.microsoft.com/en-us/azure/devops/pipelines/process/runtime-parameters?view=azure-devops&tabs=script}
+    {\texttt{Runtime parameters}}
+    that allow to skip particular jobs, when pipeline starts manually.
     \item \textbf{Automate everything, if possible.}
+    Automate everything like: Azure blob storage seed files, Databases initial state, infrastructure provisioning.
 \end{itemize}
