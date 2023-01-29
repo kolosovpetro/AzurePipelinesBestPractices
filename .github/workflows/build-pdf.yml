@@ -3,18 +3,15 @@ name: Build PDF
 on:
   push:
     branches:
-      - develop
-      - master
       - main
       - release/*
   pull_request:
     branches:
       - main
-      - master
   workflow_dispatch:
 
 env:
-  FILE_NAME: "GithubLatexTemplate"
+  FILE_NAME: "AzurePipelinesBestPractices"
 
 jobs:
   build-pdf:
