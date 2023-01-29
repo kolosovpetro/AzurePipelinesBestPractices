@@ -2,7 +2,7 @@
 # Visit https://bit.ly/cffinit to generate yours today!
 
 cff-version: 1.2.0
-title: LaTeX Template for Github
+title: Azure Pipelines Best Practices
 message: >-
   If you use this software, please cite it using the
   metadata from this file.
@@ -15,5 +15,5 @@ authors:
 identifiers:
   - type: url
     value: >-
-      https://github.com/kolosovpetro/github-latex-template
-    description: LaTeX Template for Github Source files
+      https://github.com/kolosovpetro/AzurePipelinesBestPractices
+    description: This document contains generic recommendations to follow to implement proper and reliable DevOps processes using Azure, Azure Pipelines and Azure DevOps
